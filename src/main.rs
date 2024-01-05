@@ -350,7 +350,7 @@ fn main() {
     let start = chrono::Utc::now();
     let mut total = 0;
     for lock in locks.iter() {
-        match *lock.lock().unwrap() {
+        match *lock.lock() {
             Test::Number(n) => {
                 total += n;
             },
