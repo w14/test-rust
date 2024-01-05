@@ -344,13 +344,13 @@ fn main() {
     // println!("read locks {total:?} {:?}", chrono::Utc::now() - start);
     
     let start = chrono::Utc::now();
-    let locks = (0..10_000_000).map(|i| Arc::new(parking_lot::Mutex::new(Test::Number(i % 20)))).collect::<Vec<Arc<parking_lot::Mutex<Test>>>>();
+    let locks = (0..10_000_000).map(|i| Arc::new(std::sync::Mutex::new(Test::Number(i % 20)))).collect::<Vec<Arc<std::sync::Mutex<Test>>>>();
     println!("create locks {:?}", chrono::Utc::now() - start);
     
     let start = chrono::Utc::now();
     let mut total = 0;
     for lock in locks.iter() {
-        match *lock.lock() {
+        match *lock.lock().unwrap() {
             Test::Number(n) => {
                 total += n;
             },
